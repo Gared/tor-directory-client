@@ -12,6 +12,7 @@ class Flags
     public const V2_DIR = 'V2Dir';
     public const VALID = 'Valid';
     public const STALE_DESC = 'StaleDesc';
+    public const EXIT = 'Exit';
 
     private array $flags;
 
@@ -53,5 +54,10 @@ class Flags
     public function isStaleDesc(): bool
     {
         return in_array(self::STALE_DESC, $this->flags, true);
+    }
+
+    public function isExit(): bool
+    {
+        return in_array(self::EXIT, $this->flags, true);
     }
 }
