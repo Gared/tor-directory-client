@@ -16,6 +16,7 @@ class RouterDescriptor
     private int $dirPort;
     private string $defaultPolicy;
     private string $portList;
+    private string $version;
 
     public function setNickname(string $nickname): void
     {
@@ -125,5 +126,15 @@ class RouterDescriptor
     public function setPortList(string $portList): void
     {
         $this->portList = $portList;
+    }
+
+    public function getVersion(): string
+    {
+        return $this->version;
+    }
+
+    public function setVersion(string $version): void
+    {
+        $this->version = $version;
     }
 }

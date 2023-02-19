@@ -39,5 +39,6 @@ class RouterStatusParserTest extends TestCase
         self::assertSame('1-65535', $routerDescriptor->getPortList());
         self::assertSame(['Cons', 'Desc', 'DirCache', 'FlowCtrl', 'HSDir', 'HSIntro', 'HSRend', 'Link', 'LinkAuth', 'Microdesc', 'Padding', 'Relay'], array_keys($routerDescriptor->getProtocols()));
         self::assertSame('500', $routerDescriptor->getBandwidth());
+        self::assertSame('0.4.6.9', $routerDescriptor->getVersion());
     }
 }

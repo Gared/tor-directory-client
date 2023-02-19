@@ -46,6 +46,11 @@ class RouterStatusParser
                     $parts = $this->splitLine($lines[$i]);
                     $this->parsePLine($parts, $routerDescriptor);
                 }
+
+                if (str_starts_with($lines[$i], 'v ')) {
+                    $parts = $this->splitLine($lines[$i]);
+                    $this->parseVLine($parts, $routerDescriptor);
+                }
             }
 
             $descriptors[$routerDescriptor->getFingerprint()] = $routerDescriptor;
@@ -56,6 +61,7 @@ class RouterStatusParser
 
     private function splitLine(string $line): array
     {
+        $line = str_replace("\r", "", $line);
         return preg_split('/[ \t]+/', $line);
     }
 
@@ -149,6 +155,13 @@ class RouterStatusParser
             case 'reject':
                 $routerDescriptor->setDefaultPolicy($parts[1]);
                 $routerDescriptor->setPortList(trim($parts[2]));
+        }
+    }
+
+    private function parseVLine(array $parts, RouterDescriptor $routerDescriptor): void
+    {
+        if (strlen($parts[2]) > 2) {
+            $routerDescriptor->setVersion($parts[2]);
         }
     }
 }
