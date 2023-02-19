@@ -27,6 +27,8 @@ class RouterStatusParserTest extends TestCase
         $parser = new RouterStatusParser();
         $routerDescriptors = $parser->parse($content);
 
+        self::assertCount(6894, $routerDescriptors);
+
         $routerDescriptor = $routerDescriptors[array_key_first($routerDescriptors)];
         $flags = $routerDescriptor->getFlags();
 

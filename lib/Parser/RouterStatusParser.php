@@ -17,43 +17,39 @@ class RouterStatusParser
         $descriptors = [];
         $lines = explode("\n", $content);
         $lineCount = count($lines);
+        $routerDescriptor = null;
         for ($i = 0; $i < $lineCount; $i++) {
-            if (!str_starts_with($lines[$i], 'r ')) {
-                continue;
+            if (str_starts_with($lines[$i], 'r ')) {
+                $routerDescriptor = new RouterDescriptor();
+                $parts = $this->splitLine($lines[$i]);
+                $this->parseRLine($parts, $routerDescriptor);
+                $descriptors[$routerDescriptor->getFingerprint()] = $routerDescriptor;
             }
 
-            $routerDescriptor = new RouterDescriptor();
-            $parts = $this->splitLine($lines[$i]);
-            $this->parseRLine($parts, $routerDescriptor);
-
-            while (++$i < $lineCount && !str_starts_with($lines[$i], 'r ')) {
-                if (str_starts_with($lines[$i], 's ')) {
-                    $parts = $this->splitLine($lines[$i]);
-                    $this->parseSLine($parts, $routerDescriptor);
-                }
-
-                if (str_starts_with($lines[$i], 'pr ')) {
-                    $parts = $this->splitLine($lines[$i]);
-                    $this->parsePrLine($parts, $routerDescriptor);
-                }
-
-                if (str_starts_with($lines[$i], 'w ')) {
-                    $parts = $this->splitLine($lines[$i]);
-                    $this->parseWLine($parts, $routerDescriptor);
-                }
-
-                if (str_starts_with($lines[$i], 'p ')) {
-                    $parts = $this->splitLine($lines[$i]);
-                    $this->parsePLine($parts, $routerDescriptor);
-                }
-
-                if (str_starts_with($lines[$i], 'v ')) {
-                    $parts = $this->splitLine($lines[$i]);
-                    $this->parseVLine($parts, $routerDescriptor);
-                }
+            if (str_starts_with($lines[$i], 's ')) {
+                $parts = $this->splitLine($lines[$i]);
+                $this->parseSLine($parts, $routerDescriptor);
             }
 
-            $descriptors[$routerDescriptor->getFingerprint()] = $routerDescriptor;
+            if (str_starts_with($lines[$i], 'pr ')) {
+                $parts = $this->splitLine($lines[$i]);
+                $this->parsePrLine($parts, $routerDescriptor);
+            }
+
+            if (str_starts_with($lines[$i], 'w ')) {
+                $parts = $this->splitLine($lines[$i]);
+                $this->parseWLine($parts, $routerDescriptor);
+            }
+
+            if (str_starts_with($lines[$i], 'p ')) {
+                $parts = $this->splitLine($lines[$i]);
+                $this->parsePLine($parts, $routerDescriptor);
+            }
+
+            if (str_starts_with($lines[$i], 'v ')) {
+                $parts = $this->splitLine($lines[$i]);
+                $this->parseVLine($parts, $routerDescriptor);
+            }
         }
 
         return $descriptors;
