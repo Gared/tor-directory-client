@@ -13,6 +13,7 @@ class Flags
     public const VALID = 'Valid';
     public const STALE_DESC = 'StaleDesc';
     public const EXIT = 'Exit';
+    public const GUARD = 'Guard';
 
     private array $flags;
 
@@ -59,5 +60,10 @@ class Flags
     public function isExit(): bool
     {
         return in_array(self::EXIT, $this->flags, true);
+    }
+
+    public function isGuard(): bool
+    {
+        return in_array(self::GUARD, $this->flags, true);
     }
 }
